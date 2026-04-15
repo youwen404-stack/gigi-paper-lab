@@ -88,9 +88,9 @@ a {
 }
 
 .hero h1 {
-  max-width: 11ch;
-  font-size: clamp(3rem, 7vw, 5.8rem);
-  line-height: 0.98;
+  max-width: 13ch;
+  font-size: clamp(2.8rem, 6vw, 4.8rem);
+  line-height: 1.02;
 }
 
 .hero-text {
@@ -212,8 +212,8 @@ a {
 
 .story-tile h2 {
   margin: 12px 0 12px;
-  font-size: clamp(1.8rem, 3vw, 2.8rem);
-  line-height: 1.04;
+  font-size: clamp(1.5rem, 2.8vw, 2.25rem);
+  line-height: 1.12;
   letter-spacing: -0.04em;
 }
 
@@ -289,9 +289,10 @@ a {
 }
 
 .section-heading h2 {
-  font-size: clamp(2rem, 4vw, 3.4rem);
-  max-width: 12ch;
-  line-height: 1.02;
+  font-size: clamp(1.55rem, 2.6vw, 2.35rem);
+  max-width: 18ch;
+  line-height: 1.16;
+  font-weight: 640;
 }
 
 .section-copy {
@@ -372,7 +373,7 @@ a {
 
 .track-detail-copy h3 {
   margin: 12px 0 10px;
-  font-size: clamp(1.6rem, 3vw, 2.3rem);
+  font-size: clamp(1.45rem, 2.5vw, 2rem);
   letter-spacing: -0.03em;
 }
 
@@ -451,7 +452,7 @@ a {
 
 .feature-copy h3 {
   margin: 10px 0 14px;
-  font-size: clamp(1.8rem, 3vw, 2.8rem);
+  font-size: clamp(1.65rem, 2.8vw, 2.3rem);
   letter-spacing: -0.04em;
 }
 
