@@ -182,7 +182,7 @@ function createPaperLibraryCard(paper, trackName) {
 document.getElementById("latest-update").textContent = data.updatedAt;
 document.getElementById("focus-track").textContent = data.focusTrack;
 document.getElementById("focus-summary").textContent = data.focusSummary;
-document.getElementById("hero-stage-title").textContent = `${data.focusTrack} 正在成为这一轮最值得细读的方向。`;
+document.getElementById("hero-stage-title").textContent = `${data.focusTrack} / current dossier`;
 document.getElementById("hero-stage-copy").textContent = data.focusSummary;
 
 const tracksGrid = document.getElementById("tracks-grid");
@@ -194,6 +194,17 @@ const allPapers = data.tracks.flatMap((track) =>
 document.getElementById("pulse-papers").textContent = String(allPapers.length);
 document.getElementById("pulse-ideas").textContent = String(data.ideas.length);
 document.getElementById("pulse-focus").textContent = data.focusTrack;
+
+const journalQuestion = data.ideas[0];
+document.getElementById("journal-question-title").textContent = journalQuestion?.title || "Research question";
+document.getElementById("journal-question-copy").textContent =
+  journalQuestion?.summary || "The current reading loop is surfacing new questions.";
+document.getElementById("journal-landscape-title").textContent = `${data.tracks.length} active tracks`;
+document.getElementById("journal-landscape-copy").textContent =
+  `${allPapers.length} 篇论文已经进入站点，当前重点集中在 ${data.focusTrack} 与推荐方向的多智能体趋势。`;
+document.getElementById("journal-rhythm-title").textContent = `Updated ${data.updatedAt}`;
+document.getElementById("journal-rhythm-copy").textContent =
+  "站点会继续把新论文、摘要笔记与延伸想法组织成可追踪的阅读档案。";
 
 const trackDetailStack = document.getElementById("track-detail-stack");
 data.tracks.forEach((track) => trackDetailStack.appendChild(createTrackDetailCard(track)));
