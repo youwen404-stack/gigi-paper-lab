@@ -14,6 +14,10 @@ function buildReaderUrl(file, title, kind, source) {
   return `reader.html?${params.toString()}`;
 }
 
+function buildPaperDetailUrl(id) {
+  return `paper.html?id=${encodeURIComponent(id)}`;
+}
+
 function createTrackCard(track) {
   const article = document.createElement("article");
   article.className = `track-card${track.status === "本轮热点" ? " active" : ""}`;
@@ -38,6 +42,7 @@ function createTrackCard(track) {
       <span class="track-chip">${track.status}</span>
     </div>
     <p>${track.hotSummary}</p>
+    <a class="cta-link track-link" href="#track-detail-stack">Explore this track</a>
     ${papersMarkup}
   `;
 
@@ -64,6 +69,7 @@ function createTrackDetailCard(track) {
               }
               <div class="paper-links">
                 <a class="paper-link" href="${paper.source}" target="_blank" rel="noreferrer">arXiv</a>
+                <a class="paper-link" href="${buildPaperDetailUrl(paper.id)}">detail</a>
                 <a class="paper-link secondary" href="${buildReaderUrl(
                   paper.path,
                   paper.title,
@@ -112,6 +118,7 @@ function createFeaturedPaperCard(featuredPaper) {
       <p>${featuredPaper.overview}</p>
       <div class="feature-meta">
         <span class="meta-pill">发布日期 ${featuredPaper.date}</span>
+        <a class="meta-pill" href="${buildPaperDetailUrl("step-hrl")}">详细介绍</a>
         <a class="meta-pill" href="${buildReaderUrl(
           featuredPaper.paperPath,
           featuredPaper.title,
@@ -157,12 +164,36 @@ function createIdeaCard(item) {
   return article;
 }
 
+function createPaperLibraryCard(paper, trackName) {
+  const article = document.createElement("article");
+  article.className = "paper-library-card";
+  article.innerHTML = `
+    <span class="meta-label">${trackName}</span>
+    <h3>${paper.subtitle}</h3>
+    <p>${paper.detailOverview || paper.takeaway}</p>
+    <div class="paper-library-footer">
+      <span>${paper.date}</span>
+      <a class="cta-link" href="${buildPaperDetailUrl(paper.id)}">Open detail page</a>
+    </div>
+  `;
+  return article;
+}
+
 document.getElementById("latest-update").textContent = data.updatedAt;
 document.getElementById("focus-track").textContent = data.focusTrack;
 document.getElementById("focus-summary").textContent = data.focusSummary;
+document.getElementById("hero-stage-title").textContent = `${data.focusTrack} 正在成为这一轮最值得细读的方向。`;
+document.getElementById("hero-stage-copy").textContent = data.focusSummary;
 
 const tracksGrid = document.getElementById("tracks-grid");
 data.tracks.forEach((track) => tracksGrid.appendChild(createTrackCard(track)));
+
+const allPapers = data.tracks.flatMap((track) =>
+  (track.papers || []).map((paper) => ({ ...paper, trackName: track.name })),
+);
+document.getElementById("pulse-papers").textContent = String(allPapers.length);
+document.getElementById("pulse-ideas").textContent = String(data.ideas.length);
+document.getElementById("pulse-focus").textContent = data.focusTrack;
 
 const trackDetailStack = document.getElementById("track-detail-stack");
 data.tracks.forEach((track) => trackDetailStack.appendChild(createTrackDetailCard(track)));
@@ -172,3 +203,6 @@ featuredPaper.appendChild(createFeaturedPaperCard(data.featuredPaper));
 
 const ideasGrid = document.getElementById("ideas-grid");
 data.ideas.forEach((item) => ideasGrid.appendChild(createIdeaCard(item)));
+
+const paperLibrary = document.getElementById("paper-library");
+allPapers.forEach((paper) => paperLibrary.appendChild(createPaperLibraryCard(paper, paper.trackName)));

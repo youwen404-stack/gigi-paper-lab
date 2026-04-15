@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gigi Paper Lab Paper</title>
+    <meta
+      name="description"
+      content="查看 Gigi Paper Lab 对单篇论文的详细介绍。"
+    />
+    <link rel="stylesheet" href="./assets/styles.css" />
+    <link rel="icon" href="data:," />
+  </head>
+  <body class="paper-body">
+    <div class="page-shell paper-shell">
+      <header class="paper-header">
+        <a class="reader-back" href="./index.html">Back to Gigi Paper Lab</a>
+        <div class="paper-hero glass-panel">
+          <div class="paper-hero-copy">
+            <span class="eyebrow" id="paper-track">Track</span>
+            <h1 id="paper-title">Loading…</h1>
+            <p class="hero-text" id="paper-overview">正在载入论文内容。</p>
+            <div class="feature-meta" id="paper-meta"></div>
+          </div>
+        </div>
+      </header>
+
+      <main class="paper-layout">
+        <aside class="paper-sidebar glass-panel">
+          <div class="reader-sidebar-block">
+            <span class="meta-label">Why it matters</span>
+            <p id="paper-takeaway">Loading…</p>
+          </div>
+          <div class="reader-sidebar-block">
+            <span class="meta-label">Open links</span>
+            <div class="sidebar-links" id="paper-links"></div>
+          </div>
+        </aside>
+
+        <section class="paper-sections" id="paper-sections"></section>
+      </main>
+    </div>
+
+    <script src="./assets/content.js"></script>
+    <script src="./assets/paper.js"></script>
+  </body>
+</html>
