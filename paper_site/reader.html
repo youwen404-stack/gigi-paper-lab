@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gigi Paper Lab Reader</title>
+    <meta
+      name="description"
+      content="在线阅读 Gigi Paper Lab 的论文笔记与 reflection。"
+    />
+    <link rel="stylesheet" href="./assets/styles.css" />
+    <link rel="icon" href="data:," />
+  </head>
+  <body class="reader-body">
+    <div class="page-shell reader-shell">
+      <header class="reader-header">
+        <a class="reader-back" href="./index.html">Back to Gigi Paper Lab</a>
+        <div class="reader-hero">
+          <span class="eyebrow" id="reader-kind">Paper</span>
+          <h1 id="reader-title">Loading…</h1>
+          <p class="hero-text" id="reader-subtitle">正在载入内容。</p>
+          <div class="feature-meta" id="reader-links"></div>
+        </div>
+      </header>
+
+      <main class="reader-layout">
+        <aside class="reader-sidebar glass-panel">
+          <div class="reader-sidebar-block">
+            <span class="meta-label">Route</span>
+            <p id="reader-file">Waiting for a file…</p>
+          </div>
+          <div class="reader-sidebar-block">
+            <span class="meta-label">Reading notes</span>
+            <p>线上版本会直接读取网站目录内的 markdown 文件，不再依赖本地绝对路径。</p>
+          </div>
+        </aside>
+
+        <article class="reader-article glass-panel" id="reader-content">
+          <p>Loading content…</p>
+        </article>
+      </main>
+    </div>
+
+    <script src="./assets/reader.js"></script>
+  </body>
+</html>
