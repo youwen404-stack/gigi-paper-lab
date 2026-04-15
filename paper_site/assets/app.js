@@ -179,6 +179,21 @@ function createPaperLibraryCard(paper, trackName) {
   return article;
 }
 
+function createLatestArrivalCard(paper) {
+  const article = document.createElement("article");
+  article.className = "latest-arrival-card";
+  article.innerHTML = `
+    <span class="meta-label">${paper.trackName}</span>
+    <h3>${paper.title}</h3>
+    <p>${paper.takeaway}</p>
+    <div class="latest-arrival-footer">
+      <span>${paper.date}</span>
+      <a class="cta-link" href="${buildPaperDetailUrl(paper.id)}">Read detail</a>
+    </div>
+  `;
+  return article;
+}
+
 document.getElementById("latest-update").textContent = data.updatedAt;
 document.getElementById("focus-track").textContent = data.focusTrack;
 document.getElementById("focus-summary").textContent = data.focusSummary;
@@ -191,6 +206,9 @@ data.tracks.forEach((track) => tracksGrid.appendChild(createTrackCard(track)));
 const allPapers = data.tracks.flatMap((track) =>
   (track.papers || []).map((paper) => ({ ...paper, trackName: track.name })),
 );
+const latestPapers = [...allPapers]
+  .sort((left, right) => right.date.localeCompare(left.date))
+  .slice(0, 2);
 document.getElementById("pulse-papers").textContent = String(allPapers.length);
 document.getElementById("pulse-ideas").textContent = String(data.ideas.length);
 document.getElementById("pulse-focus").textContent = data.focusTrack;
@@ -201,10 +219,13 @@ document.getElementById("journal-question-copy").textContent =
   journalQuestion?.summary || "The current reading loop is surfacing new questions.";
 document.getElementById("journal-landscape-title").textContent = `${data.tracks.length} active tracks`;
 document.getElementById("journal-landscape-copy").textContent =
-  `${allPapers.length} 篇论文已经进入站点，这一轮重点转向 ${data.focusTrack} 的推理设计与推荐方向的冷启动问题。`;
+  `${allPapers.length} 篇论文已经进入站点；本轮新增 ${latestPapers.map((paper) => paper.title).join(" 与 ")}，阅读重点转向 ${data.focusTrack}。`;
 document.getElementById("journal-rhythm-title").textContent = `Updated ${data.updatedAt}`;
 document.getElementById("journal-rhythm-copy").textContent =
   "站点会继续把新论文、摘要笔记与延伸想法组织成可追踪的阅读档案。";
+
+const latestArrivals = document.getElementById("latest-arrivals-list");
+latestPapers.forEach((paper) => latestArrivals.appendChild(createLatestArrivalCard(paper)));
 
 const trackDetailStack = document.getElementById("track-detail-stack");
 data.tracks.forEach((track) => trackDetailStack.appendChild(createTrackDetailCard(track)));

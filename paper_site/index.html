@@ -13,6 +13,7 @@
   </head>
   <body>
     <div class="page-shell">
+      <a class="skip-link" href="#main-content">Skip to Main Content</a>
       <header class="hero">
         <nav class="topbar">
           <div class="brand">Gigi Paper Lab</div>
@@ -120,9 +121,18 @@
             <p>大模型、推荐算法、Agent 三个区域按热点和论文深入展开。</p>
           </article>
         </section>
+
+        <section class="latest-arrivals glass-panel" id="latest-arrivals">
+          <div class="latest-arrivals-copy">
+            <span class="panel-label">Latest arrivals</span>
+            <h2>本轮刚加入的两篇论文。</h2>
+            <p>参考 BAIR Blog 和 Distill 的时间导览方式，把最新材料单独抽出，先告诉读者这次最该从哪里开始读。</p>
+          </div>
+          <div class="latest-arrivals-list" id="latest-arrivals-list"></div>
+        </section>
       </header>
 
-      <main>
+      <main id="main-content">
         <section class="section-block" id="tracks">
           <div class="section-heading">
             <p class="eyebrow">Research tracks</p>

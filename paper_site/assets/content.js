@@ -1,27 +1,123 @@
 window.PAPER_LAB_CONTENT = {
-  updatedAt: "2026-04-15",
+  updatedAt: "2026-04-16",
   focusTrack: "Agent",
-  focusSummary: "重新思考 Agent 的状态表示与长程任务中的进度建模。",
+  focusSummary: "这一轮更值得追的是 agent state 走向可追踪、可定位错误起点的系统对象，而不是继续把所有问题都留在长上下文里。",
   tracks: [
     {
       key: "llm",
       name: "大模型",
-      status: "持续观察",
+      status: "新论文已加入",
       hotSummary:
-        "当前重点会关注训练范式、推理效率、长上下文与 post-training 的新进展。这个区域会随着后续论文阅读逐步补全。",
+        "最近大模型方向里最值得追的是两条并行变化：一条在重写 inference-time candidate structure，另一条在重新定义 reasoning post-training 的训练契约与基础设施成本。",
       intro:
-        "大模型区域会优先解释最近一轮值得学习的研究主线，例如训练后对齐、推理效率、长上下文处理和新的能力边界。",
-      papers: [],
+        "大模型区域当前会优先关注推理效率、后训练方法与长上下文处理，尤其是那些真正重写训练或生成结构，而不只是微调超参的工作。",
+      papers: [
+        {
+          id: "ddtree",
+          title: "DDTree",
+          subtitle: "Accelerating Speculative Decoding with Block Diffusion Draft Trees",
+          date: "2026-04-15",
+          authors: "Liran Ringel, Yaniv Romano",
+          venue: "arXiv preprint",
+          takeaway: "用一次 block diffusion 生成 draft tree，再由 target model 一次前向并行验证，继续压榨 speculative decoding 的延迟收益。",
+          detailOverview:
+            "DDTree 的关键不是把 speculative decoding 再做快一点，而是把 drafter 本身从 autoregressive 生成改成 block-level、tree-structured 的候选生成。",
+          problem:
+            "传统 speculative decoding 虽然能加速 target model，但草稿模型自身往往还是逐 token 自回归，这会限制整体并行收益，尤其在多分支和高温度场景下更明显。",
+          method:
+            "DDTree 先用 block diffusion drafter 一次性预测整段 token block 的分布，再构建 draft tree，让 target model 在一次 forward pass 里并行验证整棵树。",
+          result:
+            "论文项目页与摘要显示，该方法在 GSM8K、MATH-500 等任务上相对 autoregressive decoding 给出显著加速，并超过强基线 DFlash。",
+          whyInteresting:
+            "它说明大模型推理优化不只是 kernel 和 cache 的问题，候选生成结构本身也可以重新设计，draft 与 verify 可以采用不同时间展开方式。",
+          critique:
+            "我最关心 block diffusion drafter 的训练和部署成本，以及速度收益对硬件、温度和任务分布是否足够稳健；开放式生成下的质量校准也值得继续验证。",
+          possibleIdeas:
+            "后续可以探索 adaptive candidate structure、quality-aware speculative routing，以及专门为 verifier 友好性做 distillation 的草稿模型。",
+          path: "content/read_paper/大模型/2026-04-16_DDTree.md",
+          reflectionPath: "content/paper_reflection/大模型/2026-04-16_DDTree_reflection.md",
+          source: "https://arxiv.org/abs/2604.12989",
+          highlights: [
+            "一次 block diffusion 生成整段候选",
+            "draft tree 而不是单路径草稿",
+            "把推理加速改写成候选结构设计问题",
+          ],
+        },
+        {
+          id: "lightning-opd",
+          title: "Lightning OPD",
+          subtitle:
+            "Efficient Post-Training for Large Reasoning Models with Offline On-Policy Distillation",
+          date: "2026-04-14",
+          authors: "Yecheng Wu, Song Han, Hai Cai",
+          venue: "arXiv preprint",
+          takeaway:
+            "把 OPD 能否离线化的关键归结为 teacher consistency，在不挂 live teacher server 的情况下显著降低 reasoning post-training 成本。",
+          detailOverview:
+            "Lightning OPD 不是单纯把在线蒸馏换成缓存文件，而是指出：只要 SFT 与 OPD 共享同一个 teacher，就能把 offline OPD 做成与标准 OPD 共享最优点的低基础设施 recipe。",
+          problem:
+            "标准 on-policy distillation 往往需要 live teacher inference server，训练门槛高；而直接离线缓存 teacher supervision 又常常达不到 online OPD 的效果。",
+          method:
+            "论文提出用 teacher consistency 解释 offline OPD 失败根因，并在这个约束下预计算 teacher log-probabilities，构造无需持续 teacher serving 的 Lightning OPD 训练流程。",
+          result:
+            "摘要与论文索引页显示，从 Qwen3-8B-Base 出发，Lightning OPD 在 30 GPU hours 内把 AIME 2024 做到 69.9%，并相对标准 OPD 获得 4.0x 训练加速。",
+          whyInteresting:
+            "它把后训练里很多被当作系统细节的部分，重新暴露为算法成立条件本身，也让 academia 更有机会复现高质量 reasoning post-training。",
+          critique:
+            "我最关心 teacher consistency 在多 teacher、持续升级 teacher 或更长 rollout 场景下是否仍足够稳健，以及 speedup 是否会随任务和模型规模明显波动。",
+          possibleIdeas:
+            "后续可以探索 teacher-consistent post-training stack、只刷新局部 rollout 的 adaptive offline refresh，以及专门审计 distillation pipeline 漂移的诊断工具。",
+          path: "content/read_paper/大模型/2026-04-16_Lightning-OPD.md",
+          reflectionPath: "content/paper_reflection/大模型/2026-04-16_Lightning-OPD_reflection.md",
+          source: "https://arxiv.org/abs/2604.13010",
+          highlights: [
+            "teacher consistency 是离线 OPD 的关键约束",
+            "预计算 teacher log-probs 替代 live teacher server",
+            "把 reasoning 后训练往低基础设施门槛推进",
+          ],
+        },
+      ],
     },
     {
       key: "rec",
       name: "推荐算法",
       status: "新论文已加入",
       hotSummary:
-        "最近推荐方向开始集中出现“agentic recommender”与多智能体推荐系统，重点不再只是排序指标，而是多轮交互、偏好澄清和系统协调。",
+        "推荐方向一边继续出现 agentic recommender 叙事，另一边也在回到冷启动这类长期核心问题：新内容如何在几乎没有交互时获得被看见的机会。",
       intro:
         "推荐算法区域会更多从问题定义、用户建模变化和系统落地价值来梳理，不只看单篇 paper 的指标提升。",
       papers: [
+        {
+          id: "semco",
+          title: "SEMCo",
+          subtitle: "Sparse Contrastive Learning for Content-Based Cold Item Recommendation",
+          date: "2026-04-15",
+          authors: "Gregor Meehan, Johan Pauwels",
+          venue: "SIGIR 2026; arXiv preprint",
+          takeaway: "不再把冷启动 item 生硬映射到 warm CF 空间，而是用更稀疏的内容对比学习目标直接学 cold-start 表示。",
+          detailOverview:
+            "这篇论文把冷启动推荐重新表述成 purely content-based 的 item-item similarity 学习问题，试图让新 item 不必依赖 warm model 的 embedding 对齐才能被推荐。",
+          problem:
+            "传统 cold-start 方法常把内容特征映射到已有协同过滤空间，但这既容易继承 popularity bias，也未必能充分表达真正新的 item 类型。",
+          method:
+            "作者提出 SEMCo，用 sparse generalization of sampled softmax 和 alpha-entmax 对比学习目标，让不重要负样本的梯度直接归零，从而学习更锋利的内容相似空间。",
+          result:
+            "根据摘要，SEMCo 在 ranking accuracy 上优于现有 cold-start 方法和标准 sampled softmax，并且还能与 knowledge distillation 结合进一步提升效果。",
+          whyInteresting:
+            "它把 cold-start 从 warm recommendation 的附庸任务里拉了出来，提醒我们新物品推荐也许需要独立的目标，而不是只会模仿历史热门物品。",
+          critique:
+            "我最关心 purely content-based 表示会不会过度依赖元数据质量，以及它在线上是否真的能转化成更健康的曝光和探索收益，而不只是离线排序提升。",
+          possibleIdeas:
+            "可以继续探索 bias-aware cold-start objective、warm-cold dynamic switching、内容不确定性估计，以及和 agentic recommender 结合后的解释式试探曝光策略。",
+          path: "content/read_paper/推荐算法/2026-04-16_SEMCo.md",
+          reflectionPath: "content/paper_reflection/推荐算法/2026-04-16_SEMCo_reflection.md",
+          source: "https://arxiv.org/abs/2604.12990",
+          highlights: [
+            "purely content-based cold-start framing",
+            "用 alpha-entmax 做稀疏负样本选择",
+            "不把 warm CF embedding 当成唯一目标空间",
+          ],
+        },
         {
           id: "coars",
           title: "CoARS",
@@ -90,12 +186,45 @@ window.PAPER_LAB_CONTENT = {
     {
       key: "agent",
       name: "Agent",
-      status: "本轮热点",
+      status: "新论文已加入",
       hotSummary:
-        "最近值得关注的主线是，不再默认 Agent 必须依赖越来越长的历史上下文，而是显式建模任务进度、状态抽象和层级控制。",
+        "最近值得关注的主线是，Agent 不再只是学会完成任务，还要学会暴露可追踪状态、定位 failure onset，并把长程执行变成可诊断的系统过程。",
       intro:
-        "Agent 区域当前最值得看的，是如何从“堆上下文”转向“做状态表示”。这会直接影响推理成本、长程任务稳定性和泛化。",
+        "Agent 区域当前最值得看的，是如何从“堆上下文”转向“做状态表示与状态诊断”。这会直接影响长程任务稳定性、调试成本和真实系统可运维性。",
       papers: [
+        {
+          id: "codetracer",
+          title: "CodeTracer",
+          subtitle: "Towards Traceable Agent States",
+          date: "2026-04-13",
+          authors:
+            "Han Li, Yifan Yao, Letian Zhu, Rili Feng, Hongyi Ye, Jiaming Wang, Yancheng He, Pengyu Zou, Lehan Zhang, Xinping Lei, Haoyang Huang, Ken Deng, Ming Sun, Zhaoxiang Zhang, He Ye, Jiaheng Liu",
+          venue: "arXiv preprint",
+          takeaway:
+            "把 code agent 的失败诊断做成 state tracing 与 failure onset localization 问题，而不再只是人工读日志。",
+          detailOverview:
+            "CodeTracer 的重点不是给 agent 写更长的总结，而是重建跨框架的状态转移树，定位最早失败点，再把诊断信号 replay 回原始执行流。",
+          problem:
+            "多工具、多阶段的 coding agent workflow 很容易在早期一次错误定位后级联失效，但现有日志分析难以系统化定位 failure onset 和错误传播链。",
+          method:
+            "论文统一解析不同 agent framework 的异构运行产物，构建 hierarchical trace tree 与 persistent memory，并在 CodeTraceBench 上评估 stage-level 与 step-level 的 failure localization。",
+          result:
+            "摘要与数据集页面显示，CodeTraceBench 收集了 4,316 条 agent 轨迹；CodeTracer 在 failure localization 上优于 prompting 基线，并能通过 replay 诊断信号挽回一部分失败 run。",
+          whyInteresting:
+            "它把 agent 评测从 success rate 往 diagnosability 推进了一步，也让 agent state 更像真正可运维、可回放的系统对象。",
+          critique:
+            "我最关心 trace tree 质量对底层日志完整性有多敏感，以及这种 tracing 框架迁移到网页代理或企业 workflow agent 后是否还保留同样优势。",
+          possibleIdeas:
+            "可以继续做 trace contract、把 failure onset 定位接到 corrective training 上，以及研究 state tracing 与 progress memory、tool-grounded state 的统一接口。",
+          path: "content/read_paper/agent/2026-04-16_CodeTracer.md",
+          reflectionPath: "content/paper_reflection/agent/2026-04-16_CodeTracer_reflection.md",
+          source: "https://arxiv.org/abs/2604.11641",
+          highlights: [
+            "failure onset localization 而不只是结果判定",
+            "跨框架重建 hierarchical trace tree",
+            "诊断信号可 replay 回原始运行流程",
+          ],
+        },
         {
           id: "step-hrl",
           title: "STEP-HRL",
@@ -131,30 +260,49 @@ window.PAPER_LAB_CONTENT = {
     },
   ],
   featuredPaper: {
+    id: "codetracer",
     label: "Agent / Featured",
-    title: "STEP-HRL",
-    fullTitle:
-      "Hierarchical Reinforcement Learning with Augmented Step-Level Transitions for LLM Agents",
-    date: "2026-04-07",
-    authors: "Shuai Zhen, Yanhua Yu, Ruopei Guo, Nan Cheng, Yang Deng",
+    title: "CodeTracer",
+    fullTitle: "Towards Traceable Agent States",
+    date: "2026-04-13",
+    authors:
+      "Han Li, Yifan Yao, Letian Zhu, Rili Feng, Hongyi Ye, Jiaming Wang, Yancheng He, Pengyu Zou, Lehan Zhang, Xinping Lei, Haoyang Huang, Ken Deng, Ming Sun, Zhaoxiang Zhang, He Ye, Jiaheng Liu",
     overview:
-      "这篇论文的核心价值在于，它不再把长历史上下文视为 Agent 决策的默认输入，而是把全局任务进度和局部子任务进度显式建模成一个更轻、更稳定的状态表示。",
+      "这篇论文最值得停下来细读的地方，在于它把 code agent 的失败分析从“读日志”推进成“重建状态树并定位最早失败点”的系统问题。",
     problem:
-      "长程任务中的 RL-based LLM Agent 往往会随着轨迹增长而出现 token 成本上升、决策噪音增加和训练不稳定的问题。",
+      "多阶段 coding agent 常常在很早一步就开始跑偏，但现有工具很难系统地指出错误是从哪里起、又如何一路传播开的。",
     method:
-      "STEP-HRL 用 completed subtasks 表示 global progress，用 local progress module 压缩每个子任务内部的交互历史，让高层与低层策略都能基于 step-level transition 决策。",
+      "CodeTracer 统一解析不同 agent 框架的异构运行痕迹，构建 hierarchical trace tree，并在 CodeTraceBench 上做 failure onset localization。",
     result:
-      "在 ScienceWorld 与 ALFWorld 上明显优于多种强基线，并在效率分析中表现出更稳定的单步 token 成本。",
-    source: "https://arxiv.org/abs/2604.05808",
-    paperPath: "content/read_paper/agent/2026-04-15_STEP-HRL.md",
-    reflectionPath: "content/paper_reflection/agent/2026-04-15_STEP-HRL_reflection.md",
+      "摘要与数据集页面显示，它在 failure localization 上显著优于 prompting 基线，并且 replay 诊断信号后能挽回一部分失败的 agent run。",
+    source: "https://arxiv.org/abs/2604.11641",
+    paperPath: "content/read_paper/agent/2026-04-16_CodeTracer.md",
+    reflectionPath: "content/paper_reflection/agent/2026-04-16_CodeTracer_reflection.md",
   },
   ideas: [
     {
-      title: "Progress Verifier",
+      title: "Trace Contracts",
       summary:
-        "给 local progress 增加一个 verifier，专门检查当前 progress 是否遗漏关键状态，减少错误摘要带来的级联误差。",
-      footer: "受 STEP-HRL 启发的可靠性增强方向",
+        "让 agent framework 在运行时主动暴露结构化状态与阶段边界，降低 tracing 对后处理 extractor 的依赖。",
+      footer: "受 CodeTracer 启发的 agent observability 方向",
+    },
+    {
+      title: "Teacher-consistent Training Stack",
+      summary:
+        "把 SFT、OPD 和后续推理后训练放进同一个 teacher contract 里，先检查一致性，再谈更复杂的优化目标。",
+      footer: "受 Lightning OPD 启发的后训练配方方向",
+    },
+    {
+      title: "Adaptive Candidate Structures",
+      summary:
+        "让系统根据上下文难度在单路径、树结构和更宽候选图之间切换，而不是固定一种 speculative drafting 形态。",
+      footer: "受 DDTree 启发的推理结构设计方向",
+    },
+    {
+      title: "Bias-aware Cold Start",
+      summary:
+        "在内容冷启动目标里直接加入 long-tail coverage 或 exposure fairness 约束，避免模型只学会复制已有热门分布。",
+      footer: "受 SEMCo 启发的推荐目标重写方向",
     },
     {
       title: "Uncertainty-aware Memory",
@@ -169,10 +317,10 @@ window.PAPER_LAB_CONTENT = {
       footer: "更贴近真实系统 Agent 的落地方向",
     },
     {
-      title: "Shared Multi-agent Progress",
+      title: "Failure Onset Benchmarks",
       summary:
-        "在多 Agent 系统里把 progress 做成共享黑板，让每个 Agent 只消费任务级与子任务级进度，而不必读取全部历史对话。",
-      footer: "适合协作式 Agent 的扩展方向",
+        "把 agent 评测从最终成功率扩展到最早失败点定位、错误传播链与恢复能力，而不是只看终局 outcome。",
+      footer: "受 CodeTracer 启发的 agent evaluation 方向",
     },
   ],
 };
