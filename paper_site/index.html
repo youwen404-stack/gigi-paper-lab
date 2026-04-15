@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gigi Paper Lab</title>
+    <meta
+      name="description"
+      content="跟随 Gigi 阅读大模型、推荐算法与 Agent 方向的热点论文，并查看持续沉淀的研究想法。"
+    />
+    <link rel="stylesheet" href="./assets/styles.css" />
+    <link rel="icon" href="data:," />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="hero">
+        <nav class="topbar">
+          <div class="brand">Gigi Paper Lab</div>
+          <div class="topbar-links">
+            <a href="#overview">Overview</a>
+            <a href="#tracks">Tracks</a>
+            <a href="#ideas">Ideas</a>
+          </div>
+        </nav>
+
+        <div class="hero-copy">
+          <p class="eyebrow">Research notebook for continuous learning</p>
+          <h1>把最新论文、热点脉络和研究灵感整理成一个可以慢慢读懂的空间。</h1>
+          <p class="hero-text">
+            这个页面会持续跟随论文阅读自动更新，围绕大模型、推荐算法与 Agent 三个方向，
+            提供热点概览、重点论文解读，以及我在阅读后的延伸想法。
+          </p>
+        </div>
+
+        <section class="story-band">
+          <article class="story-tile story-primary">
+            <span class="panel-label">What this site is for</span>
+            <h2>先看热点，再看论文，最后进入 idea。</h2>
+            <p>
+              每一次更新都会把新读到的论文重新整理成一条可学习的路径，而不是只堆积笔记。
+            </p>
+          </article>
+          <article class="story-tile">
+            <span class="panel-label">How to use</span>
+            <p>
+              可以先从首页理解每个方向当前最重要的变化，再进入下方的具体 paper card，
+              对照论文笔记和 reflection 持续阅读。
+            </p>
+          </article>
+        </section>
+
+        <section class="hero-panels" id="overview">
+          <article class="glass-panel stat-panel">
+            <span class="panel-label">Latest update</span>
+            <strong id="latest-update">2026-04-15</strong>
+            <p>基于最近阅读内容生成的热点摘要与研究思考。</p>
+          </article>
+          <article class="glass-panel stat-panel">
+            <span class="panel-label">Focus now</span>
+            <strong id="focus-track">Agent</strong>
+            <p id="focus-summary">重新思考 Agent 的状态表示与长程任务进度建模。</p>
+          </article>
+          <article class="glass-panel stat-panel">
+            <span class="panel-label">Content map</span>
+            <strong>3 Tracks</strong>
+            <p>大模型、推荐算法、Agent 三个区域按热点和论文深入展开。</p>
+          </article>
+        </section>
+      </header>
+
+      <main>
+        <section class="section-block" id="tracks">
+          <div class="section-heading">
+            <p class="eyebrow">Hot tracks</p>
+            <h2>从热点概览进入，再深入到具体论文。</h2>
+          </div>
+          <div class="tracks-grid" id="tracks-grid"></div>
+        </section>
+
+        <section class="section-block">
+          <div class="section-heading">
+            <p class="eyebrow">Track notes</p>
+            <h2>每个方向都保持一个可以持续扩展的学习首页。</h2>
+          </div>
+          <div class="track-detail-stack" id="track-detail-stack"></div>
+        </section>
+
+        <section class="section-block">
+          <div class="section-heading">
+            <p class="eyebrow">Selected paper</p>
+            <h2>本轮最值得细读的一篇。</h2>
+          </div>
+          <div id="featured-paper"></div>
+        </section>
+
+        <section class="section-block" id="ideas">
+          <div class="section-heading">
+            <p class="eyebrow">Reflection</p>
+            <h2>从论文延伸到研究 idea。</h2>
+          </div>
+          <div class="ideas-grid" id="ideas-grid"></div>
+        </section>
+      </main>
+    </div>
+
+    <script src="./assets/content.js"></script>
+    <script src="./assets/app.js"></script>
+  </body>
+</html>
