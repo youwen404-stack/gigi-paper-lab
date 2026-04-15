@@ -118,7 +118,7 @@ function createFeaturedPaperCard(featuredPaper) {
       <p>${featuredPaper.overview}</p>
       <div class="feature-meta">
         <span class="meta-pill">发布日期 ${featuredPaper.date}</span>
-        <a class="meta-pill" href="${buildPaperDetailUrl("step-hrl")}">详细介绍</a>
+        <a class="meta-pill" href="${buildPaperDetailUrl(featuredPaper.id)}">详细介绍</a>
         <a class="meta-pill" href="${buildReaderUrl(
           featuredPaper.paperPath,
           featuredPaper.title,
@@ -201,7 +201,7 @@ document.getElementById("journal-question-copy").textContent =
   journalQuestion?.summary || "The current reading loop is surfacing new questions.";
 document.getElementById("journal-landscape-title").textContent = `${data.tracks.length} active tracks`;
 document.getElementById("journal-landscape-copy").textContent =
-  `${allPapers.length} 篇论文已经进入站点，当前重点集中在 ${data.focusTrack} 与推荐方向的多智能体趋势。`;
+  `${allPapers.length} 篇论文已经进入站点，这一轮重点转向 ${data.focusTrack} 的推理设计与推荐方向的冷启动问题。`;
 document.getElementById("journal-rhythm-title").textContent = `Updated ${data.updatedAt}`;
 document.getElementById("journal-rhythm-copy").textContent =
   "站点会继续把新论文、摘要笔记与延伸想法组织成可追踪的阅读档案。";
