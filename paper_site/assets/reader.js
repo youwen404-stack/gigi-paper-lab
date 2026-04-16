@@ -14,6 +14,10 @@ function inlineMarkdown(text) {
   html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_, label, url) => {
     return `<a href="${escapeAttribute(url)}" target="_blank" rel="noreferrer">${escapeHtml(label)}</a>`;
   });
+  html = html.replace(
+    /(https?:\/\/[^\s<]+)/g,
+    '<a href="$1" target="_blank" rel="noreferrer">$1</a>',
+  );
   html = html.replace(/`([^`]+)`/g, "<code>$1</code>");
   html = html.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
   html = html.replace(/\*([^*]+)\*/g, "<em>$1</em>");
@@ -133,35 +137,87 @@ function renderMarkdown(markdown) {
   return html.join("");
 }
 
+function encodePath(path) {
+  return path
+    .split("/")
+    .map((segment) => encodeURIComponent(segment))
+    .join("/");
+}
+
+function resolveContentPath(path) {
+  return new URL(encodePath(path), window.location.href).toString();
+}
+
+function sanitizeMarkdown(markdown) {
+  const lines = markdown.replace(/\r\n/g, "\n").split("\n");
+
+  if (
+    lines[0] &&
+    (lines[0].startsWith("Paper path:") ||
+      lines[0].startsWith("content/read_paper/") ||
+      lines[0].startsWith("/Users/juven/Desktop/GigiClaw/read_paper/"))
+  ) {
+    lines.shift();
+    if (lines[0] === "") {
+      lines.shift();
+    }
+  }
+
+  return lines.join("\n");
+}
+
 async function loadReader() {
   const params = new URLSearchParams(window.location.search);
   const file = params.get("file");
   const title = params.get("title") || "Untitled";
   const kind = params.get("kind") || "Paper";
   const source = params.get("source");
+  const paperId = params.get("id");
+  const track = params.get("track") || "Gigi Paper Lab";
+  const date = params.get("date");
+  const authors = params.get("authors");
 
   const titleNode = document.getElementById("reader-title");
   const kindNode = document.getElementById("reader-kind");
   const subtitleNode = document.getElementById("reader-subtitle");
-  const fileNode = document.getElementById("reader-file");
+  const documentNode = document.getElementById("reader-document");
+  const trackNode = document.getElementById("reader-track");
+  const contextNode = document.getElementById("reader-context");
   const contentNode = document.getElementById("reader-content");
   const linksNode = document.getElementById("reader-links");
 
   titleNode.textContent = title;
   kindNode.textContent = kind;
+  trackNode.textContent = track;
+  documentNode.textContent = kind;
+  subtitleNode.textContent =
+    kind === "Reflection"
+      ? "A short research reflection that distills the argument, the limitations, and the next ideas worth pursuing."
+      : "A close reading that keeps the paper’s central problem, method, and takeaways in one place.";
+
+  const contextParts = [track];
+  if (date) {
+    contextParts.push(date);
+  }
+  if (authors) {
+    contextParts.push(authors);
+  }
+  contextNode.textContent = contextParts.join(" · ");
 
   if (!file) {
     subtitleNode.textContent = "缺少文件路径，无法加载内容。";
+    contextNode.textContent = "The requested document could not be located.";
     contentNode.innerHTML = "<p>Missing file parameter.</p>";
     return;
   }
 
-  fileNode.textContent = file;
-  subtitleNode.textContent = "线上版本直接从站点目录读取 markdown 并渲染为可读页面。";
-
+  const contentUrl = resolveContentPath(file);
   const chips = [
     `<a class="meta-pill" href="./index.html">Home</a>`,
-    `<a class="meta-pill" href="${escapeAttribute(file)}" target="_blank" rel="noreferrer">Raw Markdown</a>`,
+    paperId
+      ? `<a class="meta-pill" href="./paper.html?id=${encodeURIComponent(paperId)}">Paper detail</a>`
+      : "",
+    `<a class="meta-pill" href="${escapeAttribute(contentUrl)}" target="_blank" rel="noreferrer">Open text</a>`,
   ];
 
   if (source) {
@@ -169,18 +225,19 @@ async function loadReader() {
       `<a class="meta-pill" href="${escapeAttribute(source)}" target="_blank" rel="noreferrer">Source</a>`,
     );
   }
-  linksNode.innerHTML = chips.join("");
+  linksNode.innerHTML = chips.filter(Boolean).join("");
 
   try {
-    const response = await fetch(file);
+    const response = await fetch(contentUrl);
     if (!response.ok) {
       throw new Error(`Failed to fetch ${file}`);
     }
-    const markdown = await response.text();
+    const markdown = sanitizeMarkdown(await response.text());
     contentNode.innerHTML = renderMarkdown(markdown);
     document.title = `${title} · Gigi Paper Lab`;
   } catch (error) {
     subtitleNode.textContent = "内容加载失败。";
+    contextNode.textContent = "The document is not available right now.";
     contentNode.innerHTML = `<p>${escapeHtml(String(error.message || error))}</p>`;
   }
 }

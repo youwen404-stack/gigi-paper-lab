@@ -24,6 +24,27 @@ function createSection(title, body, emphasis) {
   return article;
 }
 
+function buildReaderUrl(paper, kind) {
+  const params = new URLSearchParams({
+    id: paper.id,
+    file: kind === "reflection" ? paper.reflectionPath : paper.path,
+    title:
+      kind === "reflection"
+        ? `${paper.title} Reflection`
+        : paper.title,
+    kind: kind === "reflection" ? "Reflection" : "Paper Note",
+    source: paper.source,
+    track: paper.trackName,
+    date: paper.date,
+  });
+
+  if (paper.authors) {
+    params.set("authors", paper.authors);
+  }
+
+  return `reader.html?${params.toString()}`;
+}
+
 function loadPaperPage() {
   const params = new URLSearchParams(window.location.search);
   const paper = getPaperById(params.get("id"));
@@ -57,16 +78,8 @@ function loadPaperPage() {
 
   linksNode.innerHTML = [
     `<a class="paper-link" href="${paper.source}" target="_blank" rel="noreferrer">Source</a>`,
-    `<a class="paper-link secondary" href="reader.html?file=${encodeURIComponent(
-      paper.path,
-    )}&title=${encodeURIComponent(paper.title)}&kind=Paper%20Note&source=${encodeURIComponent(
-      paper.source,
-    )}">Paper note</a>`,
-    `<a class="paper-link secondary" href="reader.html?file=${encodeURIComponent(
-      paper.reflectionPath,
-    )}&title=${encodeURIComponent(`${paper.title} Reflection`)}&kind=Reflection&source=${encodeURIComponent(
-      paper.source,
-    )}">Reflection</a>`,
+    `<a class="paper-link secondary" href="${buildReaderUrl(paper, "note")}">Paper Note</a>`,
+    `<a class="paper-link secondary" href="${buildReaderUrl(paper, "reflection")}">Reflection</a>`,
   ].join("");
 
   [
