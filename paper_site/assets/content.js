@@ -34,7 +34,7 @@ window.PAPER_LAB_CONTENT = {
             "我最关心 block diffusion drafter 的训练和部署成本，以及速度收益对硬件、温度和任务分布是否足够稳健；开放式生成下的质量校准也值得继续验证。",
           possibleIdeas:
             "后续可以探索 adaptive candidate structure、quality-aware speculative routing，以及专门为 verifier 友好性做 distillation 的草稿模型。",
-          path: "content/read_paper/大模型/web/2026-04-16_DDTree.md",
+          path: "content/read_paper/大模型/2026-04-16_DDTree.md",
           reflectionPath: "content/paper_reflection/大模型/web/2026-04-16_DDTree_reflection.md",
           source: "https://arxiv.org/abs/2604.12989",
           highlights: [
@@ -67,7 +67,7 @@ window.PAPER_LAB_CONTENT = {
             "我最关心 teacher consistency 在多 teacher、持续升级 teacher 或更长 rollout 场景下是否仍足够稳健，以及 speedup 是否会随任务和模型规模明显波动。",
           possibleIdeas:
             "后续可以探索 teacher-consistent post-training stack、只刷新局部 rollout 的 adaptive offline refresh，以及专门审计 distillation pipeline 漂移的诊断工具。",
-          path: "content/read_paper/大模型/web/2026-04-16_Lightning-OPD.md",
+          path: "content/read_paper/大模型/2026-04-16_Lightning-OPD.md",
           reflectionPath: "content/paper_reflection/大模型/web/2026-04-16_Lightning-OPD_reflection.md",
           source: "https://arxiv.org/abs/2604.13010",
           highlights: [
@@ -109,7 +109,7 @@ window.PAPER_LAB_CONTENT = {
             "我最关心 purely content-based 表示会不会过度依赖元数据质量，以及它在线上是否真的能转化成更健康的曝光和探索收益，而不只是离线排序提升。",
           possibleIdeas:
             "可以继续探索 bias-aware cold-start objective、warm-cold dynamic switching、内容不确定性估计，以及和 agentic recommender 结合后的解释式试探曝光策略。",
-          path: "content/read_paper/推荐算法/web/2026-04-16_SEMCo.md",
+          path: "content/read_paper/推荐算法/2026-04-16_SEMCo.md",
           reflectionPath: "content/paper_reflection/推荐算法/web/2026-04-16_SEMCo_reflection.md",
           source: "https://arxiv.org/abs/2604.12990",
           highlights: [
@@ -140,7 +140,7 @@ window.PAPER_LAB_CONTENT = {
             "我最关心 user agent 的真实性与分布稳定性。如果共同演化发生在一个不够真实的用户模拟器上，系统可能会变得自洽，但不一定更接近真实用户行为。",
           possibleIdeas:
             "可继续探索的方向包括：对 user agent 做更强约束、给 token-level credit 加不确定性估计、以及引入反事实用户或对抗用户来削弱共同偏差。",
-          path: "content/read_paper/推荐算法/web/2026-04-15_CoARS.md",
+          path: "content/read_paper/推荐算法/2026-04-15_CoARS.md",
           reflectionPath: "content/paper_reflection/推荐算法/web/2026-04-15_CoARS_reflection.md",
           source: "https://arxiv.org/abs/2604.10029",
           highlights: [
@@ -171,7 +171,7 @@ window.PAPER_LAB_CONTENT = {
             "综述虽然给了路线图，但这一方向真正卡住的往往是 benchmark 与可复现协议。没有统一任务和评测，很多方法很难做公平比较。",
           possibleIdeas:
             "可以从标准化多轮交互 benchmark、可验证协调机制、RL-LLM 层级职责划分、以及隐私与实时性约束下的轻量化 agent 设计切入。",
-          path: "content/read_paper/推荐算法/web/2026-04-15_Multi-Agent-Video-Recommenders.md",
+          path: "content/read_paper/推荐算法/2026-04-15_Multi-Agent-Video-Recommenders.md",
           reflectionPath:
             "content/paper_reflection/推荐算法/web/2026-04-15_Multi-Agent-Video-Recommenders_reflection.md",
           source: "https://arxiv.org/abs/2604.02211",
@@ -216,7 +216,7 @@ window.PAPER_LAB_CONTENT = {
             "我最关心 trace tree 质量对底层日志完整性有多敏感，以及这种 tracing 框架迁移到网页代理或企业 workflow agent 后是否还保留同样优势。",
           possibleIdeas:
             "可以继续做 trace contract、把 failure onset 定位接到 corrective training 上，以及研究 state tracing 与 progress memory、tool-grounded state 的统一接口。",
-          path: "content/read_paper/agent/web/2026-04-16_CodeTracer.md",
+          path: "content/read_paper/agent/2026-04-16_CodeTracer.md",
           reflectionPath: "content/paper_reflection/agent/web/2026-04-16_CodeTracer_reflection.md",
           source: "https://arxiv.org/abs/2604.11641",
           highlights: [
@@ -247,7 +247,7 @@ window.PAPER_LAB_CONTENT = {
             "我会继续追问 local progress 的错误传播问题，以及高层子任务分解是否决定了方法的最终上限。另一点是 benchmark 仍然偏 text-based，离真实工具使用还有距离。",
           possibleIdeas:
             "后续可以探索 progress verifier、不确定性感知的 progress memory、tool-grounded state，以及多 agent 之间共享 progress blackboard 这类扩展方向。",
-          path: "content/read_paper/agent/web/2026-04-15_STEP-HRL.md",
+          path: "content/read_paper/agent/2026-04-15_STEP-HRL.md",
           reflectionPath: "content/paper_reflection/agent/web/2026-04-15_STEP-HRL_reflection.md",
           source: "https://arxiv.org/abs/2604.05808",
           highlights: [
@@ -276,7 +276,7 @@ window.PAPER_LAB_CONTENT = {
     result:
       "摘要与数据集页面显示，它在 failure localization 上显著优于 prompting 基线，并且 replay 诊断信号后能挽回一部分失败的 agent run。",
     source: "https://arxiv.org/abs/2604.11641",
-    paperPath: "content/read_paper/agent/web/2026-04-16_CodeTracer.md",
+    paperPath: "content/read_paper/agent/2026-04-16_CodeTracer.md",
     reflectionPath: "content/paper_reflection/agent/web/2026-04-16_CodeTracer_reflection.md",
   },
   ideas: [
