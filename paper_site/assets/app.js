@@ -1,5 +1,13 @@
 const data = window.PAPER_LAB_CONTENT;
 
+function getPaperSortKey(paper) {
+  return paper.addedAt || paper.date || "";
+}
+
+function sortPapers(papers) {
+  return [...papers].sort((left, right) => getPaperSortKey(right).localeCompare(getPaperSortKey(left)));
+}
+
 function buildReaderUrl(file, title, kind, source) {
   const params = new URLSearchParams({
     file,
@@ -21,9 +29,10 @@ function buildPaperDetailUrl(id) {
 function createTrackCard(track) {
   const article = document.createElement("article");
   article.className = `track-card${track.status === "本轮热点" ? " active" : ""}`;
+  const papers = sortPapers(track.papers || []);
 
-  const papersMarkup = track.papers.length
-    ? `<ul class="paper-list">${track.papers
+  const papersMarkup = papers.length
+    ? `<ul class="paper-list">${papers
         .map(
           (paper) => `
             <li>
@@ -52,15 +61,16 @@ function createTrackCard(track) {
 function createTrackDetailCard(track) {
   const article = document.createElement("article");
   article.className = "track-detail-card";
+  const papers = sortPapers(track.papers || []);
 
-  const papersMarkup = track.papers.length
-    ? track.papers
+  const papersMarkup = papers.length
+    ? papers
         .map(
           (paper) => `
             <article class="paper-card">
               <span class="meta-label">Paper</span>
               <h4>${paper.subtitle}</h4>
-              <div class="paper-meta">${paper.date}</div>
+              <div class="paper-meta">${paper.date} · ${paper.venue || "Primary source"}</div>
               <p>${paper.takeaway}</p>
               ${
                 paper.highlights?.length
@@ -169,10 +179,14 @@ function createPaperLibraryCard(paper, trackName) {
   article.className = "paper-library-card";
   article.innerHTML = `
     <span class="meta-label">${trackName}</span>
+    <div class="paper-kicker">
+      <span>Paper ${paper.date}</span>
+      <span>${paper.venue || "Primary source"}</span>
+    </div>
     <h3>${paper.subtitle}</h3>
     <p>${paper.detailOverview || paper.takeaway}</p>
     <div class="paper-library-footer">
-      <span>${paper.date}</span>
+      <span>Added ${paper.addedAt || paper.date}</span>
       <a class="cta-link" href="${buildPaperDetailUrl(paper.id)}">Open detail page</a>
     </div>
   `;
@@ -184,10 +198,14 @@ function createLatestArrivalCard(paper) {
   article.className = "latest-arrival-card";
   article.innerHTML = `
     <span class="meta-label">${paper.trackName}</span>
+    <div class="latest-arrival-meta">
+      <span class="latest-arrival-chip">Added ${paper.addedAt || paper.date}</span>
+      <span>${paper.venue || "Primary source"}</span>
+    </div>
     <h3>${paper.title}</h3>
     <p>${paper.takeaway}</p>
     <div class="latest-arrival-footer">
-      <span>${paper.date}</span>
+      <span>Paper ${paper.date}</span>
       <a class="cta-link" href="${buildPaperDetailUrl(paper.id)}">Read detail</a>
     </div>
   `;
@@ -203,12 +221,10 @@ document.getElementById("hero-stage-copy").textContent = data.focusSummary;
 const tracksGrid = document.getElementById("tracks-grid");
 data.tracks.forEach((track) => tracksGrid.appendChild(createTrackCard(track)));
 
-const allPapers = data.tracks.flatMap((track) =>
+const allPapers = sortPapers(data.tracks.flatMap((track) =>
   (track.papers || []).map((paper) => ({ ...paper, trackName: track.name })),
-);
-const latestPapers = [...allPapers]
-  .sort((left, right) => right.date.localeCompare(left.date))
-  .slice(0, 2);
+));
+const latestPapers = allPapers.slice(0, 2);
 document.getElementById("pulse-papers").textContent = String(allPapers.length);
 document.getElementById("pulse-ideas").textContent = String(data.ideas.length);
 document.getElementById("pulse-focus").textContent = data.focusTrack;
@@ -222,7 +238,7 @@ document.getElementById("journal-landscape-copy").textContent =
   `${allPapers.length} 篇论文已经进入站点；本轮新增 ${latestPapers.map((paper) => paper.title).join(" 与 ")}，阅读重点转向 ${data.focusTrack}。`;
 document.getElementById("journal-rhythm-title").textContent = `Updated ${data.updatedAt}`;
 document.getElementById("journal-rhythm-copy").textContent =
-  "站点会继续把新论文、摘要笔记与延伸想法组织成可追踪的阅读档案。";
+  `最近进入站点的是 ${latestPapers.map((paper) => `${paper.title}（${paper.addedAt || paper.date}）`).join(" 与 ")}。`;
 
 const latestArrivals = document.getElementById("latest-arrivals-list");
 latestPapers.forEach((paper) => latestArrivals.appendChild(createLatestArrivalCard(paper)));
