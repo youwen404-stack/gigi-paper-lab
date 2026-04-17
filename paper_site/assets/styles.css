@@ -377,6 +377,24 @@ a:focus-visible {
   line-height: 1.75;
 }
 
+.latest-arrival-meta,
+.paper-kicker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  margin-top: 12px;
+  color: var(--muted);
+  font-size: 0.82rem;
+  letter-spacing: 0.02em;
+}
+
+.latest-arrival-chip {
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(17, 17, 17, 0.05);
+  color: #1d1d1f;
+}
+
 .latest-arrival-footer {
   display: flex;
   align-items: center;
