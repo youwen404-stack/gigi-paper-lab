@@ -1,7 +1,7 @@
 window.PAPER_LAB_CONTENT = {
-  updatedAt: "2026-04-16",
+  updatedAt: "2026-04-17",
   focusTrack: "Agent",
-  focusSummary: "这一轮更值得追的是 agent state 走向可追踪、可定位错误起点的系统对象，而不是继续把所有问题都留在长上下文里。",
+  focusSummary: "这一轮更值得追的是 Agent 能力开始被系统性地外置成可积累资产：memory、skills、protocols 与 harness 正在替代“继续堆长上下文”成为新的能力增长路径。",
   tracks: [
     {
       key: "llm",
@@ -34,7 +34,8 @@ window.PAPER_LAB_CONTENT = {
             "我最关心 block diffusion drafter 的训练和部署成本，以及速度收益对硬件、温度和任务分布是否足够稳健；开放式生成下的质量校准也值得继续验证。",
           possibleIdeas:
             "后续可以探索 adaptive candidate structure、quality-aware speculative routing，以及专门为 verifier 友好性做 distillation 的草稿模型。",
-          path: "content/read_paper/大模型/2026-04-16_DDTree.md",
+          addedAt: "2026-04-16",
+          path: "content/read_paper/大模型/web/2026-04-16_DDTree.md",
           reflectionPath: "content/paper_reflection/大模型/web/2026-04-16_DDTree_reflection.md",
           source: "https://arxiv.org/abs/2604.12989",
           highlights: [
@@ -67,7 +68,8 @@ window.PAPER_LAB_CONTENT = {
             "我最关心 teacher consistency 在多 teacher、持续升级 teacher 或更长 rollout 场景下是否仍足够稳健，以及 speedup 是否会随任务和模型规模明显波动。",
           possibleIdeas:
             "后续可以探索 teacher-consistent post-training stack、只刷新局部 rollout 的 adaptive offline refresh，以及专门审计 distillation pipeline 漂移的诊断工具。",
-          path: "content/read_paper/大模型/2026-04-16_Lightning-OPD.md",
+          addedAt: "2026-04-16",
+          path: "content/read_paper/大模型/web/2026-04-16_Lightning-OPD.md",
           reflectionPath: "content/paper_reflection/大模型/web/2026-04-16_Lightning-OPD_reflection.md",
           source: "https://arxiv.org/abs/2604.13010",
           highlights: [
@@ -109,7 +111,8 @@ window.PAPER_LAB_CONTENT = {
             "我最关心 purely content-based 表示会不会过度依赖元数据质量，以及它在线上是否真的能转化成更健康的曝光和探索收益，而不只是离线排序提升。",
           possibleIdeas:
             "可以继续探索 bias-aware cold-start objective、warm-cold dynamic switching、内容不确定性估计，以及和 agentic recommender 结合后的解释式试探曝光策略。",
-          path: "content/read_paper/推荐算法/2026-04-16_SEMCo.md",
+          addedAt: "2026-04-16",
+          path: "content/read_paper/推荐算法/web/2026-04-16_SEMCo.md",
           reflectionPath: "content/paper_reflection/推荐算法/web/2026-04-16_SEMCo_reflection.md",
           source: "https://arxiv.org/abs/2604.12990",
           highlights: [
@@ -140,7 +143,8 @@ window.PAPER_LAB_CONTENT = {
             "我最关心 user agent 的真实性与分布稳定性。如果共同演化发生在一个不够真实的用户模拟器上，系统可能会变得自洽，但不一定更接近真实用户行为。",
           possibleIdeas:
             "可继续探索的方向包括：对 user agent 做更强约束、给 token-level credit 加不确定性估计、以及引入反事实用户或对抗用户来削弱共同偏差。",
-          path: "content/read_paper/推荐算法/2026-04-15_CoARS.md",
+          addedAt: "2026-04-15",
+          path: "content/read_paper/推荐算法/web/2026-04-15_CoARS.md",
           reflectionPath: "content/paper_reflection/推荐算法/web/2026-04-15_CoARS_reflection.md",
           source: "https://arxiv.org/abs/2604.10029",
           highlights: [
@@ -171,7 +175,8 @@ window.PAPER_LAB_CONTENT = {
             "综述虽然给了路线图，但这一方向真正卡住的往往是 benchmark 与可复现协议。没有统一任务和评测，很多方法很难做公平比较。",
           possibleIdeas:
             "可以从标准化多轮交互 benchmark、可验证协调机制、RL-LLM 层级职责划分、以及隐私与实时性约束下的轻量化 agent 设计切入。",
-          path: "content/read_paper/推荐算法/2026-04-15_Multi-Agent-Video-Recommenders.md",
+          addedAt: "2026-04-15",
+          path: "content/read_paper/推荐算法/web/2026-04-15_Multi-Agent-Video-Recommenders.md",
           reflectionPath:
             "content/paper_reflection/推荐算法/web/2026-04-15_Multi-Agent-Video-Recommenders_reflection.md",
           source: "https://arxiv.org/abs/2604.02211",
@@ -186,12 +191,79 @@ window.PAPER_LAB_CONTENT = {
     {
       key: "agent",
       name: "Agent",
-      status: "新论文已加入",
+      status: "本轮热点",
       hotSummary:
-        "最近值得关注的主线是，Agent 不再只是学会完成任务，还要学会暴露可追踪状态、定位 failure onset，并把长程执行变成可诊断的系统过程。",
+        "最近 Agent 方向更值得追的主线，已经从“让模型多做一点”转向“把能力沉淀到外部系统里”：状态追踪、技能库、协议与 harness 正在一起定义下一代 agent stack。",
       intro:
-        "Agent 区域当前最值得看的，是如何从“堆上下文”转向“做状态表示与状态诊断”。这会直接影响长程任务稳定性、调试成本和真实系统可运维性。",
+        "Agent 区域当前最值得看的，不只是状态表示与失败诊断，而是更大的系统转向：memory、skills、protocols 与 harness 开始被看成真正可演化的能力层，这会直接影响长程任务稳定性、复用性与系统可运维性。",
       papers: [
+        {
+          id: "externalization-review",
+          title: "Externalization",
+          subtitle: "Externalization in LLM Agents: A Unified Review of Memory, Skills, Protocols and Harness Engineering",
+          date: "2026-04-09",
+          addedAt: "2026-04-17",
+          authors:
+            "Chenyu Zhou, Huacan Chai, Wenteng Chen, Zihan Guo, Rong Shan, Yuanyi Song, Tianyi Xu, Yingxuan Yang, Aofan Yu, Weiming Zhang, Congming Zheng, Jiachen Zhu, Zeyu Zheng, Zhuosheng Zhang, Xingyu Lou, Changwang Zhang, Zhihui Fu, Jun Wang, Weiwen Liu, Jianghao Lin, Weinan Zhang",
+          venue: "arXiv tech report",
+          takeaway:
+            "把 agent 能力增长统一重写成 externalization 问题：memory 管状态，skills 管程序经验，protocols 管交互结构，harness 管整套系统的可靠运行。",
+          detailOverview:
+            "这篇综述最有价值的地方，不在于再列一遍 memory 或 tools，而在于给出现代 agent stack 的系统地图：很多关键能力已经不再藏在模型参数里，而是被搬到可治理、可替换、可演化的外部结构中。",
+          problem:
+            "随着 agent 进入更长、更真实的任务环境，只靠模型权重和上下文窗口已经很难稳定承担状态维持、程序复用、跨工具协调与执行治理这些负担。",
+          method:
+            "论文用 externalization 这个统一框架，把 agent 进展拆成四层：memory externalizes state，skills externalize procedural expertise，protocols externalize interaction structure，harness engineering 负责把这些模块组织成可治理的执行系统。",
+          result:
+            "作为系统综述，它的主要产出不是单一 benchmark 分数，而是给出一套更可操作的 agent 设计语言，解释为什么实践里的很多增益越来越来自系统结构，而不是纯粹更大的 base model。",
+          whyInteresting:
+            "它把当前零散的 agent engineering 讨论收束成一张清晰地图，也提醒我们未来很多真正可复用的进步，可能来自更好的外部认知基础设施而不是单次 prompt 技巧。",
+          critique:
+            "我最关心的保留点是 harness engineering 的边界仍然偏宽。下一步如果不能把各层 externalization 的增益拆清楚，这个框架会很容易变成“什么都能装进去”的总括性叙述。",
+          possibleIdeas:
+            "可以继续往 adaptive externalization policy、layer-wise ablation benchmark、self-evolving harness 与 shared skill infrastructure 几个方向推进，让“外置能力”不只是概念框架，而是可比较的系统对象。",
+          path: "content/read_paper/agent/web/2026-04-16_Externalization-in-LLM-Agents.md",
+          reflectionPath: "content/paper_reflection/agent/web/2026-04-16_Externalization-in-LLM-Agents_reflection.md",
+          source: "https://arxiv.org/abs/2604.08224",
+          highlights: [
+            "用 externalization 统一 memory、skills、protocols 与 harness",
+            "把 agent 进步解释成系统结构重写而不是只靠参数升级",
+            "给长时程 agent 提供了更像工程地图的设计语言",
+          ],
+        },
+        {
+          id: "skillx",
+          title: "SkillX",
+          subtitle: "SkillX: Automatically Constructing Skill Knowledge Bases for Agents",
+          date: "2026-04-06",
+          addedAt: "2026-04-17",
+          authors: "Chenxi Wang, Zhuoyun Yu, Xin Xie, Wuguannan Yao, Runnan Fang, Shuofei Qiao, Kexin Cao, Guozhou Zheng, Xiang Qi, Peng Zhang, Shumin Deng",
+          venue: "arXiv preprint",
+          takeaway:
+            "不再把 agent 经验留在一次性轨迹里，而是自动抽取、修订并扩展可插拔的 SkillKB，让经验真正变成可迁移资产。",
+          detailOverview:
+            "SkillX 抓住了 agent 研究里一个非常实用的系统问题：成功轨迹能否稳定沉淀成可重组的技能对象，而不是每次换任务、换 agent 就重新探索一遍。",
+          problem:
+            "现有 self-evolving agents 往往在孤立环境里学习，原始轨迹噪声大、难复用，导致经验无法跨任务迁移，有限数据下还会不断重复探索。",
+          method:
+            "SkillX 用三层技能设计把轨迹蒸馏成 strategic plans、functional skills 和 atomic skills，再结合 iterative refinement 与 exploratory expansion，自动把零散执行经验变成可复用的 Skill Knowledge Base。",
+          result:
+            "arXiv 摘要显示，作者用强 backbone agent 构建 SkillKB，并在 AppWorld、BFCL-v3 与 τ²-Bench 等长时程 benchmark 上把这个技能库迁移给更弱 agent 后，任务成功率与执行效率都获得稳定提升。",
+          whyInteresting:
+            "这篇论文的重要性在于，它把“agent 是否会从经验中成长”落成了一个清晰工程对象。真正长期有价值的 agent 系统，可能取决于经验资产化，而不只是单次任务成功率。",
+          critique:
+            "我最关心 teacher bias 会不会被技能库长期继承，以及所谓 atomic skills 如果仍主要是自然语言对象，是否足够精确到支持大规模组合、版本控制与冲突消解。",
+          possibleIdeas:
+            "可以继续做 skill quality evaluator、skill version graph、在线 credit assignment 与 SkillKB 联动、以及更程序化的 typed skill interface，让技能库更像可维护的软件资产层。",
+          path: "content/read_paper/agent/web/2026-04-16_SkillX.md",
+          reflectionPath: "content/paper_reflection/agent/web/2026-04-16_SkillX_reflection.md",
+          source: "https://arxiv.org/abs/2604.04804",
+          highlights: [
+            "从轨迹里自动构建 plug-and-play SkillKB",
+            "三级技能结构把高层计划到原子动作连接起来",
+            "让 agent 经验复用从 memory retrieval 走向资产化",
+          ],
+        },
         {
           id: "codetracer",
           title: "CodeTracer",
@@ -216,7 +288,8 @@ window.PAPER_LAB_CONTENT = {
             "我最关心 trace tree 质量对底层日志完整性有多敏感，以及这种 tracing 框架迁移到网页代理或企业 workflow agent 后是否还保留同样优势。",
           possibleIdeas:
             "可以继续做 trace contract、把 failure onset 定位接到 corrective training 上，以及研究 state tracing 与 progress memory、tool-grounded state 的统一接口。",
-          path: "content/read_paper/agent/2026-04-16_CodeTracer.md",
+          addedAt: "2026-04-16",
+          path: "content/read_paper/agent/web/2026-04-16_CodeTracer.md",
           reflectionPath: "content/paper_reflection/agent/web/2026-04-16_CodeTracer_reflection.md",
           source: "https://arxiv.org/abs/2604.11641",
           highlights: [
@@ -247,7 +320,8 @@ window.PAPER_LAB_CONTENT = {
             "我会继续追问 local progress 的错误传播问题，以及高层子任务分解是否决定了方法的最终上限。另一点是 benchmark 仍然偏 text-based，离真实工具使用还有距离。",
           possibleIdeas:
             "后续可以探索 progress verifier、不确定性感知的 progress memory、tool-grounded state，以及多 agent 之间共享 progress blackboard 这类扩展方向。",
-          path: "content/read_paper/agent/2026-04-15_STEP-HRL.md",
+          addedAt: "2026-04-15",
+          path: "content/read_paper/agent/web/2026-04-15_STEP-HRL.md",
           reflectionPath: "content/paper_reflection/agent/web/2026-04-15_STEP-HRL_reflection.md",
           source: "https://arxiv.org/abs/2604.05808",
           highlights: [
@@ -260,26 +334,38 @@ window.PAPER_LAB_CONTENT = {
     },
   ],
   featuredPaper: {
-    id: "codetracer",
+    id: "externalization-review",
     label: "Agent / Featured",
-    title: "CodeTracer",
-    fullTitle: "Towards Traceable Agent States",
-    date: "2026-04-13",
+    title: "Externalization",
+    fullTitle: "Externalization in LLM Agents: A Unified Review of Memory, Skills, Protocols and Harness Engineering",
+    date: "2026-04-09",
     authors:
-      "Han Li, Yifan Yao, Letian Zhu, Rili Feng, Hongyi Ye, Jiaming Wang, Yancheng He, Pengyu Zou, Lehan Zhang, Xinping Lei, Haoyang Huang, Ken Deng, Ming Sun, Zhaoxiang Zhang, He Ye, Jiaheng Liu",
+      "Chenyu Zhou, Huacan Chai, Wenteng Chen, Zihan Guo, Rong Shan, Yuanyi Song, Tianyi Xu, Yingxuan Yang, Aofan Yu, Weiming Zhang, Congming Zheng, Jiachen Zhu, Zeyu Zheng, Zhuosheng Zhang, Xingyu Lou, Changwang Zhang, Zhihui Fu, Jun Wang, Weiwen Liu, Jianghao Lin, Weinan Zhang",
     overview:
-      "这篇论文最值得停下来细读的地方，在于它把 code agent 的失败分析从“读日志”推进成“重建状态树并定位最早失败点”的系统问题。",
+      "这篇综述最值得停下来细读的地方，在于它把 memory、skills、protocols 与 harness 放进同一张系统地图，解释为什么 agent 能力越来越来自模型外部的认知基础设施。",
     problem:
-      "多阶段 coding agent 常常在很早一步就开始跑偏，但现有工具很难系统地指出错误是从哪里起、又如何一路传播开的。",
+      "当 agent 进入更长、更复杂的真实任务后，单靠模型内部能力已经很难稳定承担状态维持、程序复用、交互协调与执行治理这些系统负担。",
     method:
-      "CodeTracer 统一解析不同 agent 框架的异构运行痕迹，构建 hierarchical trace tree，并在 CodeTraceBench 上做 failure onset localization。",
+      "论文用 externalization 框架统一解释 memory、skills、protocols 和 harness engineering 各自承担的认知与系统职责，并讨论它们如何耦合成更可靠的执行结构。",
     result:
-      "摘要与数据集页面显示，它在 failure localization 上显著优于 prompting 基线，并且 replay 诊断信号后能挽回一部分失败的 agent run。",
-    source: "https://arxiv.org/abs/2604.11641",
-    paperPath: "content/read_paper/agent/2026-04-16_CodeTracer.md",
-    reflectionPath: "content/paper_reflection/agent/web/2026-04-16_CodeTracer_reflection.md",
+      "它给出的主要贡献不是单一实验分数，而是一套更有解释力的 agent systems vocabulary，让后续研究更容易比较“哪些能力应当外置、外置后如何治理”。",
+    source: "https://arxiv.org/abs/2604.08224",
+    paperPath: "content/read_paper/agent/web/2026-04-16_Externalization-in-LLM-Agents.md",
+    reflectionPath: "content/paper_reflection/agent/web/2026-04-16_Externalization-in-LLM-Agents_reflection.md",
   },
   ideas: [
+    {
+      title: "Adaptive Externalization Policies",
+      summary:
+        "让系统动态决定哪些能力应保留在参数里、哪些应迁移到 memory、skills 或 harness，避免所有问题都退化成“继续加上下文”。",
+      footer: "受 Externalization in LLM Agents 启发的系统分层方向",
+    },
+    {
+      title: "Skill Version Graphs",
+      summary:
+        "把技能库做成有版本、依赖关系和失效检测的资产图，而不是一堆扁平技能条目，让 agent 经验复用更接近真正的软件资产维护。",
+      footer: "受 SkillX 启发的技能资产化方向",
+    },
     {
       title: "Trace Contracts",
       summary:
@@ -309,18 +395,6 @@ window.PAPER_LAB_CONTENT = {
       summary:
         "让 progress 不只输出文本摘要，还输出不确定性。当状态不确定时，再有选择地回看更长历史，而不是始终坚持压缩视图。",
       footer: "受 STEP-HRL 启发的自适应上下文方向",
-    },
-    {
-      title: "Tool-grounded State",
-      summary:
-        "把进度表示绑定到网页状态、数据库状态或工具返回结果上，让 Agent 的 state 从自然语言摘要进一步走向结构化世界状态。",
-      footer: "更贴近真实系统 Agent 的落地方向",
-    },
-    {
-      title: "Failure Onset Benchmarks",
-      summary:
-        "把 agent 评测从最终成功率扩展到最早失败点定位、错误传播链与恢复能力，而不是只看终局 outcome。",
-      footer: "受 CodeTracer 启发的 agent evaluation 方向",
     },
   ],
 };
